@@ -43,13 +43,14 @@ while True:
     try:
         msg = input()
         print('Input: ' + msg)
+        drone.send(msg)
 
         if msg == 'bye':
             drone.terminate()
             recvThread.join()
             print('\nGood bye\n')
             break
-        drone.send(msg)
+
     except KeyboardInterrupt:
         drone.terminate()
         recvThread.join()
