@@ -9,7 +9,10 @@ print('Drone initialized')
 
 flight = drone.flight
 flight.takeoff().wait_for_completed()
-time.sleep(10)
+flight.up(distance=30).wait_for_completed()
+flight.forward(distance=100).wait_for_completed()
+flight.down(distance=30).wait_for_completed()
+flight.forward(distance=60).wait_for_completed()
 flight.land().wait_for_completed()
 
 print('Flight ended')

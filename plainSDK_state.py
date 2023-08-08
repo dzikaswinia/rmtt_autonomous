@@ -17,13 +17,14 @@ def convert_to_matrix_row_format(item):
     return result
 
 
-#file_path = "/home/monika/Dokumente/robotik/drone_state/state_230808-1.txt" # bobik
-file_path = "/home/monika/nauka/Robotik/drone_state/state_230808-1.txt" # mikus
+file_path = "/home/monika/Dokumente/robotik/drone_state/state_230808-1.txt" # bobik
+#file_path = "/home/monika/nauka/Robotik/drone_state/state_230808-1.txt" # mikus
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 8890))
 file = open(file_path, "a")
 
-for x in range(100):
+#for x in range(100):
+while True:
     try:
         print('trying to get sensor state')
         data, server = sock.recvfrom(1024)
