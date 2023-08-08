@@ -17,9 +17,11 @@ def convert_to_matrix_row_format(item):
     return result
 
 
+#file_path = "/home/monika/Dokumente/robotik/drone_state/state_230808-1.txt" # bobik
+file_path = "/home/monika/nauka/Robotik/drone_state/state_230808-1.txt" # mikus
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 8890))
-file = open("/home/monika/Dokumente/robotik/drone_state/state_3-2.txt", "a")
+file = open(file_path, "a")
 
 for x in range(100):
     try:
