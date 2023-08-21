@@ -1,5 +1,6 @@
 import random as rd
 import logging
+import command
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
@@ -14,12 +15,6 @@ CMDS = [#["takeoff", None],
         ["right", [20, 40, 60]],
         ["cw", [90, 180]],    # rotate clockwise
         ["ccw", [90, 180]]]   # rotate counter-clockwise
-
-
-class command:
-    def __init__(self, name, param):
-        self.name = name
-        self.param = param
 
 
 def get_param(cmd_index):
@@ -38,7 +33,7 @@ def get_param(cmd_index):
 def get_cmd():
     cmd_index = rd.randint(0, len(CMDS) - 1)
     parameter = get_param(cmd_index)
-    cmd = command(CMDS[cmd_index][0], param=parameter)
+    cmd = command.Command(CMDS[cmd_index][0], parameter)
     logging.debug("[cmd_param_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.param))
 
 
