@@ -18,16 +18,16 @@ drone = drone.Drone()
 recvThread = threading.Thread(target=drone.recv)
 recvThread.start()
 
-cmds = ["takeoff", "forward 20", "cw 90", "land"]
+cmds = [["takeoff", 8], ["forward 60", 3], ["cw 180", 2], ["land", 0]]
 
 drone.send("command")
 time.sleep(3)
 
 for i in range(len(cmds)):
     try:
-        drone.send(cmds[i])
-        logging.debug(f'Command send: {cmds[i]}')
-        time.sleep(2)  # 2sec
+        drone.send(cmds[i][0])
+        logging.debug(f'Command send: {cmds[i][0]}')
+        time.sleep(cmds[i][1])  # 2sec
     except KeyboardInterrupt:
         drone.terminate()
         recvThread.join()
