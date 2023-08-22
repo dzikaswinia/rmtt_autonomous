@@ -34,8 +34,8 @@ def get_cmd():
     cmd_index = rd.randint(0, len(CMDS) - 1)
     parameter = get_param(cmd_index)
     cmd = command.Command(CMDS[cmd_index][0], parameter)
-    logging.debug("[cmd_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.param))
+    logging.debug("[cmd_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.get_param()))
 
 
-#get_cmd()
+get_cmd()
 

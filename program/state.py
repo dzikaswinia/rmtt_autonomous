@@ -24,13 +24,13 @@ class State:
         logging.debug(f'[state_tracker | init] Initialized a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
-        if (coord == 3):
+        if coord == 3:
             current_val = self.pos[coord]
             new_val = current_val + val
-            if (new_val > 360):
+            if new_val > 360:
                 new_val -= 360
                 self.pos[coord] = new_val
-            elif (new_val < 0):
+            elif new_val < 0:
                 new_val += 360
                 self.pos[coord] = new_val
             else:
@@ -40,12 +40,12 @@ class State:
 
     def update(self, cmd):
         logging.debug(f'[state_tracker | update] Updating the position with command \"{cmd.name}\" '
-                      f'with param {cmd.param}. Current position: {self.pos}.')
+                      f'with param {cmd.get_param()}. Current position: {self.pos}.')
         val = None
         if cmd.name == "up" or cmd.name == "down" or cmd.name == "cw" or cmd.name == "ccw":
             val = [x for x in CMDS if x[0] == cmd.name][0]
             # print(f'val for {cmd.name} is: {val}\nself.pos[val[1]]: {self.pos[val[1]]}, val[1]: {val[1]}, val[2]: {val[2]}, cmd.param: {cmd.param}')
-            self.update_coordinate(val[1], val[2] * cmd.param)
+            self.update_coordinate(val[1], val[2] * cmd.get_param())
 
         if cmd.name == "forward" or cmd.name == "back":
             degree = self.pos[3]
@@ -60,7 +60,7 @@ class State:
                     factor = -1
             if cmd.name == "back":
                 factor *= -1
-            self.update_coordinate(coordinate, factor * cmd.param)
+            self.update_coordinate(coordinate, factor * cmd.__param)
 
         if cmd.name == "right" or cmd.name == "left":
             degree = self.pos[3]
@@ -75,19 +75,19 @@ class State:
                     factor = -1
             if cmd.name == "left":
                 factor *= -1
-            self.update_coordinate(coordinate, factor * cmd.param)
+            self.update_coordinate(coordinate, factor * cmd.get_param())
 
         logging.debug(f'[state_tracker | update] updated position: {self.pos}')
 
 
-cmd_up = command.Command("up", 22)
+cmd_up = command.Command("up", 20)
 cmd_cw = command.Command("cw", 90)
 cmd_ccw = command.Command("ccw", 180)
 cmd_ccw2 = command.Command("ccw", 90)
-cmd_f = command.Command("forward", 10)
-cmd_b = command.Command("back", 10)
-cmd_r = command.Command("right", 10)
-cmd_l = command.Command("left", 10)
+cmd_f = command.Command("forward", 20)
+cmd_b = command.Command("back", 20)
+cmd_r = command.Command("right", 20)
+cmd_l = command.Command("left", 20)
 state = State(start_position=[100, 100, 0, 0])
 #state.update(cmd_up)
 state.update(cmd_l)
