@@ -19,14 +19,14 @@ CMDS = [#["takeoff", None],
 
 def get_param(cmd_index):
     result = None
-    logging.debug(f'[cmd_param_gen | get_param] Looking for the parameter for the command \"{CMDS[cmd_index][0]}\".')
+    logging.debug(f'[cmd_gen | get_param] Looking for the parameter for the command \"{CMDS[cmd_index][0]}\".')
     if (CMDS[cmd_index][1]):
-        logging.debug(f'[cmd_param_gen | get_param] Possible parameters {CMDS[cmd_index][1]}')
+        logging.debug(f'[cmd_gen | get_param] Possible parameters {CMDS[cmd_index][1]}')
         param_index = rd.randint(0, len(CMDS[cmd_index][1]) - 1)
         result = CMDS[cmd_index][1][param_index]
-        logging.debug(f'[cmd_param_gen | get_param] Choosen parameter is: {result}')
+        logging.debug(f'[cmd_gen | get_param] Choosen parameter is: {result}')
     else:
-        logging.debug(f'[cmd_param_gen | get_param] This command does not required any parameters.')
+        logging.debug(f'[cmd_gen | get_param] This command does not required any parameters.')
     return result
 
 
@@ -34,8 +34,8 @@ def get_cmd():
     cmd_index = rd.randint(0, len(CMDS) - 1)
     parameter = get_param(cmd_index)
     cmd = command.Command(CMDS[cmd_index][0], parameter)
-    logging.debug("[cmd_param_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.param))
+    logging.debug("[cmd_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.param))
 
 
-get_cmd()
+#get_cmd()
 

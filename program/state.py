@@ -1,18 +1,18 @@
 import logging
-import unittest
 import command
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 
+# cmd name, coordinate index (x, y or z), factor (in- or decrease)
 CMDS = [  # ["takeoff", None],
     # ["land", None],
     ["up", 2, 1],
     ["down", 2, -1],
-    ["forward", None],  # if degree = 0 v degree = 180 -> y, if degree = 90 v degree = 270 -> x
-    ["back", None],  # same as forward
-    ["left", None],  # x if degree = 0 or 180, else y
-    ["right", None],  # same as left
+    ["forward"],  # 1 (y) for 0 and 180°
+    ["back"],  # same as forward
+    ["left"],  # x if degree = 0 or 180, else y
+    ["right"],  # same as left
     ["cw", 3, 1],  # rotate clockwise -> addition
     ["ccw", 3, -1]]  # subtraction
 
@@ -21,12 +21,7 @@ class State:
     def __init__(self, start_position):
         self.start = start_position  # (x, y, z, degrees) starting height (z) would be after take off 80-100cm
         self.pos = self.start
-        # logging.DEBUG(f'[state_tracker | init] Initialazed a state with starting position: {start_position}')
-        print(f'[state_tracker | init] Initialized a state with starting position: {start_position}')
-
-    # position during flight and height could be calculated by tracking the changes in respect to the starting position
-    # It would be pretty straight forward (no obstacles in flight field) but when we want to allow the cmd "rotate"
-    # thing starting to get complicated (geometry is needed)
+        logging.debug(f'[state_tracker | init] Initialized a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
         if (coord == 3):
@@ -44,41 +39,64 @@ class State:
             self.pos[coord] += val
 
     def update(self, cmd):
-        print(f'[state_tracker | update] Updating the position with command: {cmd.name} with param: {cmd.param}'
-              f'\nCurrent position: {self.pos}.')
+        logging.debug(f'[state_tracker | update] Updating the position with command \"{cmd.name}\" '
+                      f'with param {cmd.param}. Current position: {self.pos}.')
         val = None
         if cmd.name == "up" or cmd.name == "down" or cmd.name == "cw" or cmd.name == "ccw":
             val = [x for x in CMDS if x[0] == cmd.name][0]
             # print(f'val for {cmd.name} is: {val}\nself.pos[val[1]]: {self.pos[val[1]]}, val[1]: {val[1]}, val[2]: {val[2]}, cmd.param: {cmd.param}')
             self.update_coordinate(val[1], val[2] * cmd.param)
-            # self.pos[val[1]] += val[2] * cmd.param
 
-        if cmd.name == "forward":
+        if cmd.name == "forward" or cmd.name == "back":
             degree = self.pos[3]
-            coordinate = None
+            coordinate = 1  # y
             factor = 1
             if degree == 0 or degree == 180:
-                coordinate = 1  # y
                 if degree == 180:
                     factor = -1 # going down when facing down
-
             else:
                 coordinate = 0  # x
                 if degree == 270:
                     factor = -1
+            if cmd.name == "back":
+                factor *= -1
             self.update_coordinate(coordinate, factor * cmd.param)
 
-        print(f'Changed position: {self.pos}')
+        if cmd.name == "right" or cmd.name == "left":
+            degree = self.pos[3]
+            coordinate = 0  # x for 0° and 180°
+            factor = 1
+            if degree == 0 or degree == 180:
+                if degree == 180:
+                    factor = -1 # going down when facing down
+            else:
+                coordinate = 1  # y
+                if degree == 90:
+                    factor = -1
+            if cmd.name == "left":
+                factor *= -1
+            self.update_coordinate(coordinate, factor * cmd.param)
+
+        logging.debug(f'[state_tracker | update] updated position: {self.pos}')
 
 
 cmd_up = command.Command("up", 22)
 cmd_cw = command.Command("cw", 90)
 cmd_ccw = command.Command("ccw", 180)
 cmd_ccw2 = command.Command("ccw", 90)
-cmd_f = command.Command("forward", 40)
-state = State(start_position=[100, 100, 0, 270])
-state.update(cmd_up)
-state.update(cmd_f)
+cmd_f = command.Command("forward", 10)
+cmd_b = command.Command("back", 10)
+cmd_r = command.Command("right", 10)
+cmd_l = command.Command("left", 10)
+state = State(start_position=[100, 100, 0, 0])
+#state.update(cmd_up)
+state.update(cmd_l)
+state.update(cmd_cw)
+state.update(cmd_l)
+state.update(cmd_cw)
+state.update(cmd_l)
+state.update(cmd_cw)
+state.update(cmd_l)
 
 
 """ testing rotation 
