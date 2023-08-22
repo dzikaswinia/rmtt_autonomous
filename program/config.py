@@ -3,6 +3,8 @@
 MAX_Y = 100
 MAX_X = 100
 MAX_Z = 200
+POS_MAX = [100,100,200]
+POS_MIN = [0, 0, 20]
 
 # websocket for SDK cmd
 CMD_IP = '192.168.10.1'

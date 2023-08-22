@@ -27,7 +27,7 @@ class Command:
         return [ x[2] for x in config.CMDS if x[0] == cmd_name][0]
 
 
-# ---- TESTS ------------
+# ------------------- TESTS ---------------------
 """
 cmd = Command("back", 660)
 print(f'cmd name: {cmd.name}, param: {cmd.get_param()},'

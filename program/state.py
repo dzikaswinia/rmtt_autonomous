@@ -21,7 +21,7 @@ class State:
     def __init__(self, start_position):
         self.start = start_position  # (x, y, z, degrees) starting height (z) would be after take off 80-100cm
         self.pos = self.start
-        logging.debug(f'[state_tracker | init] Initialized a state with starting position: {start_position}')
+        logging.debug(f'[state | init] Initialized a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
         if coord == 3:
@@ -39,8 +39,8 @@ class State:
             self.pos[coord] += val
 
     def update(self, cmd):
-        logging.debug(f'[state_tracker | update] Updating the position with command \"{cmd.name}\" '
-                      f'with param {cmd.get_param()}. Current position: {self.pos}.')
+        logging.debug(f'[state | update] Updating the position {self.pos} '
+                      f'with command \"{cmd.name}\" with param {cmd.get_param()}.')
         val = None
         if cmd.name == "up" or cmd.name == "down" or cmd.name == "cw" or cmd.name == "ccw":
             val = [x for x in CMDS if x[0] == cmd.name][0]
@@ -60,7 +60,7 @@ class State:
                     factor = -1
             if cmd.name == "back":
                 factor *= -1
-            self.update_coordinate(coordinate, factor * cmd.__param)
+            self.update_coordinate(coordinate, factor * cmd.get_param())
 
         if cmd.name == "right" or cmd.name == "left":
             degree = self.pos[3]
@@ -77,9 +77,12 @@ class State:
                 factor *= -1
             self.update_coordinate(coordinate, factor * cmd.get_param())
 
-        logging.debug(f'[state_tracker | update] updated position: {self.pos}')
+        logging.debug(f'[state | update] updated position: {self.pos}')
 
 
+
+# ------------------- TESTS ---------------------
+"""
 cmd_up = command.Command("up", 20)
 cmd_cw = command.Command("cw", 90)
 cmd_ccw = command.Command("ccw", 180)
@@ -97,7 +100,7 @@ state.update(cmd_cw)
 state.update(cmd_l)
 state.update(cmd_cw)
 state.update(cmd_l)
-
+"""
 
 """ testing rotation 
 state.update(cmd_cw)

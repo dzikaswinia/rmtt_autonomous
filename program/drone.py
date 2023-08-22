@@ -25,3 +25,6 @@ class Drone:
         msg = msg.encode(encoding='utf-8')
         self.sock.sendto(msg, (config.CMD_IP, config.CMD_PORT))
         print(f'message: {msg}')
+
+
+# ------------------- TESTS ---------------------
