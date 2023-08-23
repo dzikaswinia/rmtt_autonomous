@@ -1,9 +1,9 @@
 
 # cube limitations (in cm)
-MAX_Y = 100
-MAX_X = 100
-MAX_Z = 200
-POS_MAX = [100,100,200]
+MAX_Y = 200
+MAX_X = 200
+MAX_Z = 180
+POS_MAX = [200, 200, 180]
 POS_MIN = [0, 0, 20]
 
 # websocket for SDK cmd
@@ -16,13 +16,15 @@ RESP_PORT = 9000
 TAKEOFF_EXEC_TIME = 8
 MOVE_EXEC_TIME = 3
 ROTATION_EXEC_TIME = 2
+MOVE = [40, 60, 100, 120]
+MOVE_UP_DOWN = [20, 50, 80, 120]
 CMDS = [#["takeoff", None],
         #["land", None],
-        ["up", [20], MOVE_EXEC_TIME],
-        ["down", [20], MOVE_EXEC_TIME],
-        ["forward", [20, 40, 60], MOVE_EXEC_TIME],
-        ["back", [20, 40, 60], MOVE_EXEC_TIME],
-        ["left", [20, 40, 60], MOVE_EXEC_TIME],
-        ["right", [20, 40, 60], MOVE_EXEC_TIME],
-        ["cw", [90, 180], ROTATION_EXEC_TIME],    # rotate clockwise
-        ["ccw", [90, 180], ROTATION_EXEC_TIME]]   # rotate counter-clockwise
+        ["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
+        ["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
+        ["forward", MOVE, MOVE_EXEC_TIME],
+        ["back", MOVE, MOVE_EXEC_TIME],
+        ["left", MOVE, MOVE_EXEC_TIME],
+        ["right", MOVE, MOVE_EXEC_TIME],
+        ["cw", MOVE, ROTATION_EXEC_TIME],    # rotate clockwise
+        ["ccw", MOVE, ROTATION_EXEC_TIME]]   # rotate counter-clockwise

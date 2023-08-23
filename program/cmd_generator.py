@@ -22,7 +22,7 @@ def get_param(cmd_index):
     return result
 
 
-def generate_cmd():
+def __generate_cmd():
     cmd_index = rd.randint(0, len(config.CMDS) - 1)
     parameter = get_param(cmd_index)
     cmd = command.Command(config.CMDS[cmd_index][0], parameter)
@@ -31,13 +31,17 @@ def generate_cmd():
 
 
 def get_valid_cmd(state):
-    cmd = generate_cmd()
+    cmd = __generate_cmd()
     while not st.is_valid_change(state, cmd):
         print('generated cmd is invalid, generation will be repeated')
-        cmd = generate_cmd()
+        cmd = __generate_cmd()
     return cmd
 
+
 # ------------------- TESTS ---------------------
+"""
 state1 = state.State(start_position=[0, 0, 20, 0])
 print(get_valid_cmd(state1))
+"""
+
 

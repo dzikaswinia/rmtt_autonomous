@@ -7,30 +7,36 @@ import drone
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 
-def exec_cmd(drone, cmd, receiving_thread):
+
+def exec_cmd(drone_instance, comm, receiving_thread):
     try:
-        print(cmd.to_string())
-        drone.send(cmd.to_string())
-        exec_time = cmd.get_exec_time()
-        logging.debug(f'Cmd "{cmd.name} with exec time {exec_time}')
-        time.sleep(cmd.get_exec_time())  # 2sec
+        drone_instance.send(comm.to_string())
+        exec_time = comm.get_exec_time()
+        logging.debug(f'Cmd \"{comm.name}\" with exec time {exec_time}')
+        time.sleep(comm.get_exec_time())
     except KeyboardInterrupt:
-        drone.terminate()
+        drone_instance.terminate()
         receiving_thread.join()
 
-# ------------------- TESTS ---------------------
 
-drone = drone.Drone()
-recvThread = threading.Thread(target=drone.recv)
+# ------------------- TESTS ---------------------
+"""
+rmtt = drone.Drone()
+recvThread = threading.Thread(target=rmtt.recv)
 recvThread.start()
 
 cmd = command.Command("back", 60)
 cmd_f = command.Command("forward", 40)
 cmd_r = command.Command("right", 20)
+cmd_cw = command.Command("cw", 90)
 
-drone.send("command")
+rmtt.send("command")
 time.sleep(3)
-drone.send("takeoff")
+rmtt.send("takeoff")
 time.sleep(8)
 
-exec_cmd(drone, cmd, recvThread)
+exec_cmd(rmtt, cmd_r, recvThread)
+exec_cmd(rmtt, cmd_cw, recvThread)
+rmtt.send("land")
+"""
+
