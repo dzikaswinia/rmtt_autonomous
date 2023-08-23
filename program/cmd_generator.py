@@ -2,6 +2,8 @@ import random as rd
 import logging
 import command
 import config
+import state
+import state_tracker as st
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
@@ -20,13 +22,22 @@ def get_param(cmd_index):
     return result
 
 
-def get_cmd():
+def generate_cmd():
     cmd_index = rd.randint(0, len(config.CMDS) - 1)
     parameter = get_param(cmd_index)
     cmd = command.Command(config.CMDS[cmd_index][0], parameter)
     logging.debug("[cmd_gen | get_cmd] Generated command \"" + cmd.name + "\" with parameter " + str(cmd.get_param()))
+    return cmd
 
+
+def get_valid_cmd(state):
+    cmd = generate_cmd()
+    while not st.is_valid_change(state, cmd):
+        print('generated cmd is invalid, generation will be repeated')
+        cmd = generate_cmd()
+    return cmd
 
 # ------------------- TESTS ---------------------
-get_cmd()
+state1 = state.State(start_position=[0, 0, 20, 0])
+print(get_valid_cmd(state1))
 
