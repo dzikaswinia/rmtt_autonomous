@@ -27,9 +27,23 @@ class Command:
         return [ x[2] for x in config.CMDS if x[0] == cmd_name][0]
 
 
+    def to_string(self):
+        return self.name + " " + str(self.get_param())
+
+
 # ------------------- TESTS ---------------------
 """
-cmd = Command("back", 660)
+cmd = Command("back", 60)
+cmd_f = Command("forward", 40)
+cmd_r = Command("right", 40)
+cmd_l = Command("left", 20)
+cmd_cw = Command("cw", 90)
 print(f'cmd name: {cmd.name}, param: {cmd.get_param()},'
       f' exec time: {cmd.get_exec_time()}')
+print(f'cmd as string: {cmd.to_string()}')
+print(f'cmd as string: {cmd_f.to_string()}')
+print(f'cmd as string: {cmd_r.to_string()}')
+print(f'cmd as string: {cmd_l.to_string()}')
+print(f'cmd as string: {cmd_cw.to_string()}')
+
 """

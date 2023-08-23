@@ -8,7 +8,7 @@ import cmd_generator
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 
-TIME_LIMIT = 10 # sec
+CMD_LIMIT = 3
 
 print(f'Hello in drone flying program!\n'
       f'The cube is on the size {config.MAX_X} x {config.MAX_Y}'
@@ -23,7 +23,11 @@ cmds = [["takeoff", 8], ["forward 60", 3], ["cw 180", 2], ["land", 0]]
 drone.send("command")
 time.sleep(3)
 
-for i in range(len(cmds)):
+
+# take off
+
+
+for i in range(len(CMD_LIMIT)): # 2 for takeoff and land
     try:
         drone.send(cmds[i][0])
         logging.debug(f'Command send: {cmds[i][0]}')
