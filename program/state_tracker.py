@@ -8,7 +8,7 @@ import command
 # check if drone still in cube -> see cube limitation in config module
 def is_valid_change(current_state, cmd):
     current_state_copy = deepcopy(current_state)
-    current_state_copy.update(cmd)
+    current_state_copy.update(cmd, "checking")
     new_pos_wo_degrees = current_state_copy.pos[:-1]
     for i in range(len(config.POS_MAX)):
         if new_pos_wo_degrees[i] > config.POS_MAX[i]:

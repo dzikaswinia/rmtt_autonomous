@@ -21,7 +21,7 @@ class State:
     def __init__(self, start_position):
         self.start = start_position  # (x, y, z, degrees) starting height (z) would be after take off 80-100cm
         self.pos = self.start
-        logging.debug(f'[state | init] Initialized a state with starting position: {start_position}')
+        logging.info(f'[state | init] Initialized a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
         if coord == 3:
@@ -38,7 +38,7 @@ class State:
         else:
             self.pos[coord] += val
 
-    def update(self, cmd):
+    def update(self, cmd, *mode):
         logging.debug(f'[state | update] Updating the position {self.pos} '
                       f'with command \"{cmd.name}\" with param {cmd.get_param()}.')
         val = None
@@ -77,7 +77,7 @@ class State:
                 factor *= -1
             self.update_coordinate(coordinate, factor * cmd.get_param())
 
-        logging.debug(f'[state | update] updated position: {self.pos}')
+        logging.debug(f'[state | update ({mode})] command: {cmd.to_string()} \t\tupdated position: {self.pos}')
 
 
 

@@ -8,9 +8,9 @@ import cmd_generator as gen
 import cmd_dispatcher as cd
 
 root = logging.getLogger()
-root.setLevel(logging.DEBUG)
+root.setLevel(logging.INFO)
 
-CMD_LIMIT = 20
+CMD_LIMIT = 5
 START = [100, 100, 80, 0]
 
 print(f'Hello in drone flying program!\n'
@@ -27,16 +27,16 @@ recvThread.start()
 
 drone_state = state.State(start_position=START)
 
-drone.send("command")
-time.sleep(3)
+#drone.send("command")
+#time.sleep(3)
 
 # take off
-drone.send("takeoff")
-time.sleep(8)
+#drone.send("takeoff")
+#time.sleep(8)
 
 
 for i in range(CMD_LIMIT):
     cmd = gen.get_valid_cmd(drone_state)
-    cd.exec_cmd(drone, cmd, recvThread)
+    cd.exec_cmd(drone, cmd, recvThread, drone_state)
 
 drone.send("land")
