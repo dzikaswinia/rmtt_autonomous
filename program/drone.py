@@ -7,6 +7,7 @@ class Drone:
         self._running = True
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((config.HOST_IP, config.RESP_PORT))
+        self.exec_state = None
 
     def terminate(self):
         self._running = False
@@ -18,6 +19,7 @@ class Drone:
                 msg, _ = self.sock.recvfrom(1024)
                 utf8 = 'utf-8'
                 print(f'response {msg.decode(encoding=utf8)}')
+                self.exec_state = msg.decode(encoding=utf8)
             except Exception as err:
                 print(err)
 
@@ -25,6 +27,7 @@ class Drone:
         msg = msg.encode(encoding='utf-8')
         self.sock.sendto(msg, (config.CMD_IP, config.CMD_PORT))
         print(f'message: {msg}')
+
 
 
 # ------------------- TESTS ---------------------

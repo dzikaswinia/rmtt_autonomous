@@ -12,17 +12,23 @@ root.setLevel(logging.INFO)
 def exec_cmd(drone_instance, comm, receiving_thread, state):
     try:
         response = drone_instance.send(comm.to_string())
-        print(f'here is the response: {response}' )
-        state.update(comm)
-        logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} \t Updated position: {state.pos}')
         time.sleep(comm.get_exec_time())
+        logging.info(f'here is drone exec state: {drone_instance.exec_state}')
+        if drone_instance.exec_state == 'ok':
+            state.update(comm)
+            logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} '
+                         f'\t Updated position: {state.pos}')
+        else:
+            logging.info(f'[cmd_dispatcher | exec_cmd] Command {comm.to_string()} have not been'
+                         f' executed. Current position: {state.pos}')
+
     except KeyboardInterrupt:
         drone_instance.terminate()
         receiving_thread.join()
 
 
 # ------------------- TESTS ---------------------
-
+"""
 rmtt = drone.Drone()
 recvThread = threading.Thread(target=rmtt.recv)
 recvThread.start()
@@ -38,9 +44,12 @@ time.sleep(3)
 rmtt.send("takeoff")
 time.sleep(8)
 
-exec_cmd(rmtt, cmd_r, recvThread, drone_state)
+exec_cmd(rmtt, cmd_f, recvThread, drone_state)
 exec_cmd(rmtt, cmd_cw, recvThread, drone_state)
 rmtt.send("land")
+
+"""
+
 
 
 

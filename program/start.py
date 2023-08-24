@@ -10,8 +10,8 @@ import cmd_dispatcher as cd
 root = logging.getLogger()
 root.setLevel(logging.INFO)
 
-CMD_LIMIT = 40
-START = [100, 100, 80, 0]
+CMD_LIMIT = 20
+START = [80, 80, 80, 0]
 
 print(f'Hello in drone flying program!\n'
       f'The cube is on the size {config.MAX_X} x {config.MAX_Y}'
