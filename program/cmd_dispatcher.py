@@ -6,12 +6,13 @@ import drone
 import state
 
 root = logging.getLogger()
-root.setLevel(logging.DEBUG)
+root.setLevel(logging.INFO)
 
 
 def exec_cmd(drone_instance, comm, receiving_thread, state):
     try:
-        drone_instance.send(comm.to_string())
+        response = drone_instance.send(comm.to_string())
+        print(f'here is the response: {response}' )
         state.update(comm)
         logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} \t Updated position: {state.pos}')
         time.sleep(comm.get_exec_time())
@@ -21,7 +22,7 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
 
 
 # ------------------- TESTS ---------------------
-"""
+
 rmtt = drone.Drone()
 recvThread = threading.Thread(target=rmtt.recv)
 recvThread.start()
@@ -41,7 +42,7 @@ exec_cmd(rmtt, cmd_r, recvThread, drone_state)
 exec_cmd(rmtt, cmd_cw, recvThread, drone_state)
 rmtt.send("land")
 
-"""
+
 
 
 
