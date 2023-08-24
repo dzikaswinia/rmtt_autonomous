@@ -33,7 +33,6 @@ def __generate_cmd():
 def get_valid_cmd(state):
     cmd = __generate_cmd()
     while not st.is_valid_change(state, cmd):
-        print('generated cmd is invalid, generation will be repeated')
         cmd = __generate_cmd()
     logging.debug(f'[cmd_gen | get_valid_cmd] command: {cmd.to_string()}')
     return cmd

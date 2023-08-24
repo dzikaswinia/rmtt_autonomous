@@ -21,7 +21,7 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
 
 
 # ------------------- TESTS ---------------------
-
+"""
 rmtt = drone.Drone()
 recvThread = threading.Thread(target=rmtt.recv)
 recvThread.start()
@@ -40,6 +40,8 @@ time.sleep(8)
 exec_cmd(rmtt, cmd_r, recvThread, drone_state)
 exec_cmd(rmtt, cmd_cw, recvThread, drone_state)
 rmtt.send("land")
+
+"""
 
 
 

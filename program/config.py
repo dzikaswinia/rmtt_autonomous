@@ -16,8 +16,8 @@ RESP_PORT = 9000
 TAKEOFF_EXEC_TIME = 8
 MOVE_EXEC_TIME = 3
 ROTATION_EXEC_TIME = 2
-MOVE = [40, 60, 100, 120]
-MOVE_UP_DOWN = [20, 50, 80, 120]
+MOVE = [60, 100, 120]
+MOVE_UP_DOWN = [60, 80, 120]
 DEGREES = [90, 180]
 CMDS = [#["takeoff", None],
         #["land", None],
