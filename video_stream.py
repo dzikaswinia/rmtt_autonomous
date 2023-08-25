@@ -11,6 +11,7 @@ camera.start_video_stream(display=False)
 camera.set_fps("high")
 camera.set_resolution("high")
 camera.set_bitrate(6)
+camera.start_video_stream()
 for i in range(0, 302):
     img = camera.read_cv2_image()
     cv2.imshow("Drone", img)
