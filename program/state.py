@@ -21,6 +21,7 @@ class State:
     def __init__(self, start_position):
         self.start = start_position  # (x, y, z, degrees) starting height (z) would be after take off 80-100cm
         self.pos = self.start
+        self.previous_pos = None
         logging.info(f'[state | init] Initialized a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
@@ -39,6 +40,8 @@ class State:
             self.pos[coord] += val
 
     def update(self, cmd, *mode):
+        self.previous_pos = self.pos.copy()
+
         logging.debug(f'[state | update] Updating the position {self.pos} '
                       f'with command \"{cmd.name}\" with param {cmd.get_param()}.')
         val = None
@@ -79,9 +82,19 @@ class State:
 
         logging.debug(f'[state | update ({mode})] command: {cmd.to_string()} \t\tupdated position: {self.pos}')
 
+    def undo(self):
+        self.pos = self.previous_pos
+        logging.debug(f'[state | undo] position undo, current position: {self.pos}')
+
+
 
 
 # ------------------- TESTS ---------------------
+
+state = State(start_position=[100, 100, 0, 0])
+cmd_b = command.Command("back", 40)
+state.update(cmd_b)
+state.undo()
 """
 cmd_up = command.Command("up", 20)
 cmd_cw = command.Command("cw", 90)

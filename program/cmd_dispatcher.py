@@ -11,14 +11,17 @@ root.setLevel(logging.INFO)
 
 def exec_cmd(drone_instance, comm, receiving_thread, state):
     try:
+        state.update(comm)
         response = drone_instance.send(comm.to_string())
         time.sleep(comm.get_exec_time())
         logging.info(f'here is drone exec state: {drone_instance.exec_state}')
         if drone_instance.exec_state == 'ok':
-            state.update(comm)
+            #state.update(comm)
             logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} '
                          f'\t Updated position: {state.pos}')
         else:
+            # undo the update
+            state.undo()
             logging.info(f'[cmd_dispatcher | exec_cmd] Command {comm.to_string()} have not been'
                          f' executed. Current position: {state.pos}')
 
