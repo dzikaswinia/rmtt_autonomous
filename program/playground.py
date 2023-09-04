@@ -1,3 +1,7 @@
+import time
+
+import config
+
 def convert_to_matrix_row_format(data):
     # stripping from unnecessary symbols
     data = data[1:-3]  # remove byte symbol
@@ -11,9 +15,18 @@ def convert_to_matrix_row_format(data):
             result += ':'
     return result
 
-example = "b'mid:-1;x:-100;y:-100;z:-100;mpry:0,0,0;pitch:-1;roll:0;yaw:0;vgx:0;vgy:0;vgz:0;templ:66;temph:69;tof:10;h:0;bat:58;baro:101.66;time:0;agx:-32.00;agy:-10.00;agz:-998.00;\r\n"
-print(convert_to_matrix_row_format(example))
+#example = "b'mid:-1;x:-100;y:-100;z:-100;mpry:0,0,0;pitch:-1;roll:0;yaw:0;vgx:0;vgy:0;vgz:0;templ:66;temph:69;tof:10;h:0;bat:58;baro:101.66;time:0;agx:-32.00;agy:-10.00;agz:-998.00;\r\n"
+#print(convert_to_matrix_row_format(example))
 
+
+def print_pad_detected_value():
+    while True:
+        print(f'[playground] config.PAD_DETECTED: {config.PAD_DETECTED}')
+        time.sleep(2)
+
+
+if __name__ == "__main__":
+    print_pad_detected_value()
 
 """
 # stripping from unnecessary symbols

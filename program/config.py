@@ -1,9 +1,6 @@
 
 # cube limitations (in cm)
-MAX_Y = 200
-MAX_X = 200
-MAX_Z = 180
-POS_MAX = [160, 160, 180]
+POS_MAX = [80, 80, 180]
 POS_MIN = [0, 0, 20]
 
 # websocket for SDK cmd
@@ -16,7 +13,7 @@ RESP_PORT = 9000
 TAKEOFF_EXEC_TIME = 8
 MOVE_EXEC_TIME = 5
 ROTATION_EXEC_TIME = 4
-MOVE = [40, 60, 100, 120]
+MOVE = [20, 40, 60, 80, 100, 120]
 MOVE_UP_DOWN = [60, 80, 120]
 DEGREES = [90, 180]
 CMDS = [#["takeoff", None],
@@ -30,3 +27,6 @@ CMDS = [#["takeoff", None],
         #["cw", DEGREES, ROTATION_EXEC_TIME],    # rotate clockwise
         #["ccw", DEGREES, ROTATION_EXEC_TIME]]   # rotate counter-clockwise
         ]
+
+# mission pad detected (not constant)
+PAD_DETECTED = False
