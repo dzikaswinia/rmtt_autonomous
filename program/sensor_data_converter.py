@@ -55,8 +55,11 @@ def run_sensor_data_converter():
             logging.debug(f'[sensor data converter] sensor date: {decoded_data}')
             mid = get_sensor_value(decoded_data, "mid")
             #print(decoded_data)
+            """
             logging.info(f'[sensor data converter] mission pad id: {mid},  '
                          f'config.PAD_DETECTED {config.PAD_DETECTED}')
+                         
+            """
             if mid != str(-1):
                 config.PAD_DETECTED = True
 

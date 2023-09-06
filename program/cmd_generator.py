@@ -31,16 +31,11 @@ def __generate_cmd():
 
 
 def get_valid_cmd(state):
-    if config.PAD_DETECTED:
-        logging.info(f'[cmd_gen | get_valid_cmd] mission pad detected! - landing'
-                     f'\n config.PAD_DETECTED {config.PAD_DETECTED}')
-        return command.Command('land', None)
-    else:
+    cmd = __generate_cmd()
+    while not st.is_valid_change(state, cmd):
         cmd = __generate_cmd()
-        while not st.is_valid_change(state, cmd):
-            cmd = __generate_cmd()
-        logging.debug(f'[cmd_gen | get_valid_cmd] command: {cmd.to_string()}')
-        return cmd
+    logging.debug(f'[cmd_gen | get_valid_cmd] command: {cmd.to_string()}')
+    return cmd
 
 
 # ------------------- TESTS ---------------------

@@ -5,6 +5,7 @@ root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 
 # cmd name, coordinate index (x, y or z), factor (in- or decrease)
+"""
 CMDS = [  # ["takeoff", None],
     # ["land", None],
     ["up", 2, 1],
@@ -15,6 +16,8 @@ CMDS = [  # ["takeoff", None],
     ["right"],  # same as left
     ["cw", 3, 1],  # rotate clockwise -> addition
     ["ccw", 3, -1]]  # subtraction
+
+"""
 
 
 class State:

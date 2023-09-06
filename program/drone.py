@@ -20,6 +20,7 @@ class Drone:
                 utf8 = 'utf-8'
                 print(f'response {msg.decode(encoding=utf8)}')
                 self.exec_state = msg.decode(encoding=utf8)
+                return msg.decode(encoding=utf8)
             except Exception as err:
                 print(err)
 

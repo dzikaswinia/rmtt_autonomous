@@ -30,6 +30,20 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
         receiving_thread.join()
 
 
+def exec_sensor_cmd(drone_instance, comm, receiving_thread):
+    try:
+        #state.update(comm)
+        drone_instance.send(comm)
+        response = drone_instance.recv()
+        #time.sleep(comm.get_exec_time())
+
+        logging.info(f'sensor data: {response}')
+        return response
+    except KeyboardInterrupt:
+        drone_instance.terminate()
+        receiving_thread.join()
+
+
 # ------------------- TESTS ---------------------
 """
 rmtt = drone.Drone()

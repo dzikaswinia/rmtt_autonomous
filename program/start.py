@@ -1,11 +1,20 @@
 import threading
 import logging
 import time
+
 import config
 import drone
 import state
 import cmd_generator as gen
 import cmd_dispatcher as cd
+
+
+def get_map(drone, thread):
+    result = []
+    for i in range(0, 30, 60, 90):
+        
+    dist = cd.exec_sensor_cmd(drone, "", recvThread)
+
 
 root = logging.getLogger()
 root.setLevel(logging.INFO)
@@ -30,6 +39,19 @@ def start():
     drone.send("command")
     time.sleep(3)
 
+    tof_cmd = "EXT tof?"
+
+    cd.exec_sensor_cmd(drone, tof_cmd, recvThread)
+    #print(f'Distatnce: {dist}')
+    time.sleep(2)
+    cd.exec_sensor_cmd(drone, tof_cmd, recvThread)
+    time.sleep(2)
+    cd.exec_sensor_cmd(drone, tof_cmd, recvThread)
+    time.sleep(2)
+
+
+
+    """
     # take off
     drone.send("takeoff")
     time.sleep(8)
@@ -37,8 +59,16 @@ def start():
 
     for i in range(CMD_LIMIT):
         print(f'[start] config.PAD_DETECTED: {config.PAD_DETECTED}')
-        cmd = gen.get_valid_cmd(drone_state)
-        cd.exec_cmd(drone, cmd, recvThread, drone_state)
-        time.sleep(BREAK_BETWEEN_CMD)
+        if config.PAD_DETECTED:
+            drone.send("land")
+            break
+        else:
+            cmd = gen.get_valid_cmd(drone_state)
+            cd.exec_cmd(drone, cmd, recvThread, drone_state)
+            time.sleep(BREAK_BETWEEN_CMD)
 
     drone.send("land")
+    """
+
+# ------------------- TESTS ---------------------
+start()
