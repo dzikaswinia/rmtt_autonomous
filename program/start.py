@@ -14,8 +14,7 @@ CMD_LIMIT = 20
 START = [80, 80, 80, 0]
 
 print(f'Hello in drone flying program!\n'
-      f'The cube is on the size {config.MAX_X} x {config.MAX_Y}'
-      f' x {config.MAX_Z} cm.\n'
+      f'The cube is on the size {config.POS_MAX} cm.\n'
       f'\tStarting position: {START}'
       f'\n\tNumber of commands: {CMD_LIMIT}')
 

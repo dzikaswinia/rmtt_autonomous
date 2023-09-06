@@ -1,9 +1,9 @@
 
 # cube limitations (in cm)
-MAX_Y = 200
-MAX_X = 200
-MAX_Z = 180
-POS_MAX = [160, 160, 180]
+#MAX_Y = 200
+#MAX_X = 200
+#MAX_Z = 180
+POS_MAX = [160, 160, 100]
 POS_MIN = [0, 0, 20]
 
 # websocket for SDK cmd
@@ -21,8 +21,8 @@ MOVE_UP_DOWN = [60, 80, 120]
 DEGREES = [90, 180]
 CMDS = [#["takeoff", None],
         #["land", None],
-       # ["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
-        #["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
+        ["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
+        ["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         ["forward", MOVE, MOVE_EXEC_TIME],
         ["back", MOVE, MOVE_EXEC_TIME]
         #["left", MOVE, MOVE_EXEC_TIME],
