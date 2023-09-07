@@ -1,11 +1,12 @@
 import logging
 import command
+import config
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 
 # cmd name, coordinate index (x, y or z), factor (in- or decrease)
-"""
+
 CMDS = [  # ["takeoff", None],
     # ["land", None],
     ["up", 2, 1],
@@ -17,7 +18,7 @@ CMDS = [  # ["takeoff", None],
     ["cw", 3, 1],  # rotate clockwise -> addition
     ["ccw", 3, -1]]  # subtraction
 
-"""
+
 
 
 class State:
@@ -45,7 +46,7 @@ class State:
     def update(self, cmd, *mode):
         self.previous_pos = self.pos.copy()
 
-        logging.debug(f'[state | update] Updating the position {self.pos} '
+        logging.info(f'[state | update] Updating the position {self.pos} '
                       f'with command \"{cmd.name}\" with param {cmd.get_param()}.')
         val = None
         if cmd.name == "up" or cmd.name == "down" or cmd.name == "cw" or cmd.name == "ccw":
@@ -83,21 +84,23 @@ class State:
                 factor *= -1
             self.update_coordinate(coordinate, factor * cmd.get_param())
 
-        logging.debug(f'[state | update ({mode})] command: {cmd.to_string()} \t\tupdated position: {self.pos}')
+        logging.info(f'[state | update ({mode})] command: {cmd.to_string()} \t\tupdated position: {self.pos}')
 
     def undo(self):
         self.pos = self.previous_pos
-        logging.debug(f'[state | undo] position undo, current position: {self.pos}')
+        logging.info(f'[state | undo] position undo, current position: {self.pos}')
 
 
 
 
 # ------------------- TESTS ---------------------
-
+"""
 state = State(start_position=[100, 100, 0, 0])
 cmd_b = command.Command("back", 40)
 state.update(cmd_b)
 state.undo()
+"""
+
 """
 cmd_up = command.Command("up", 20)
 cmd_cw = command.Command("cw", 90)

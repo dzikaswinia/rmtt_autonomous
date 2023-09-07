@@ -14,9 +14,9 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
         state.update(comm)
         response = drone_instance.send(comm.to_string())
         time.sleep(comm.get_exec_time())
-        logging.info(f'here is drone exec state: {drone_instance.exec_state}')
+        logging.info(f'here is drone response: {drone_instance.exec_state}')
         if drone_instance.exec_state == 'ok':
-            #state.update(comm)
+            state.update(comm)
             logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} '
                          f'\t Updated position: {state.pos}')
         else:
@@ -37,12 +37,53 @@ def exec_sensor_cmd(drone_instance, comm, receiving_thread):
         response = drone_instance.recv()
         #time.sleep(comm.get_exec_time())
 
-        logging.info(f'sensor data: {response}')
+        logging.info(f'sensor data: #{response}#')
         return response
     except KeyboardInterrupt:
         drone_instance.terminate()
         receiving_thread.join()
 
+
+def get_real_response(drone_instance):
+    is_tof_resp = False
+    response = ""
+    while not is_tof_resp:
+        response = drone_instance.recv()
+        logging.debug(f'trying to get tof response: {response}')
+        print()
+        if response.startswith("tof"):
+            is_tof_resp = True
+
+        if response == "out of range":
+            response = "tof 9000"
+            is_tof_resp = True
+
+    return response
+
+
+def get_tof(drone_instance, receiving_thread):
+    """
+    Gets tof sensor data (mm) and converts it to cm with rounding up.
+
+    :param drone_instance: drone
+    :param receiving_thread: thread
+    :return: distance in cm as integer
+    """
+    try:
+        drone_instance.send("EXT tof?")
+        response = get_real_response(drone_instance)
+        logging.info(f'sensor data: {response}')
+
+        # extracting value
+        values = response.split(" ")
+        tof_mm = int(values[1])
+
+        # converting from mm to cm (as integer)
+        tof_cm = round(tof_mm * 0.1)
+        return tof_cm
+    except KeyboardInterrupt:
+        drone_instance.terminate()
+        receiving_thread.join()
 
 # ------------------- TESTS ---------------------
 """

@@ -5,20 +5,30 @@ import config
 class Command:
     def __init__(self, name, param):
         self.name = name
-        self.__param = self.set_param(param)
+        self.param = self.set_param(param, name)
         self.__exec_time = self.set_exec_time(name)
+        logging.debug(f"[command | init] param: {self.param}, name: {self.name}")
 
-    def set_param(self, param):
-        valid_param = [x[1] for x in config.CMDS if x[0] == self.name][0]
-        if param in valid_param:
-            return param
+    def set_param(self, param, name):
+        if name == "cw" or name == "ccw":
+            valid_param = [x[1] for x in config.CMDS if x[0] == self.name][0]
+            if param in valid_param:
+                self.param = param
+                return param
+            else:
+                logging.error(f"Invalid parameter ({param}) for command \"{self.name}\"!"
+                              f" Valid parameters are: {valid_param} ")
+
         else:
-            logging.error(f"Invalid parameter ({param}) for command \"{self.name}\"!"
-                          f" Valid parameters are: {valid_param} ")
-            return None
+
+            self.param = param
+            logging.debug(f"[command | set_param] param: {param}, name: {name}, "
+                          f" get_param: {self.get_param()}")
+            return param
+
 
     def get_param(self):
-        return self.__param
+        return self.param
 
     def get_exec_time(self):
         return self.__exec_time

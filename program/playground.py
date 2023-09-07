@@ -1,4 +1,5 @@
 import time
+from djitellopy import Tello
 
 import config
 
@@ -26,7 +27,11 @@ def print_pad_detected_value():
 
 
 if __name__ == "__main__":
-    print_pad_detected_value()
+    #print_pad_detected_value()
+    print("lll")
+    tello = Tello()
+    print(f'tello connect: {tello.connect()}')
+    print(tello.get_distance_tof())
 
 """
 # stripping from unnecessary symbols

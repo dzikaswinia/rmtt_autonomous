@@ -3,10 +3,6 @@ import socket
 import cv2
 
 
-""" Welcome note """
-print("\nTello Video Stream Program\n")
-
-
 class Tello:
     def __init__(self):
         self._running = True
