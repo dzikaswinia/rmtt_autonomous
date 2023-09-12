@@ -52,7 +52,7 @@ def run_sensor_data_converter():
             # print('trying to get sensor state')
             data, server = sock.recvfrom(1024)
             decoded_data = data.decode()
-            logging.debug(f'[sensor data converter] sensor date: {decoded_data}')
+            logging.info(f'[sensor data converter] sensor date: {decoded_data}')
             mid = get_sensor_value(decoded_data, "mid")
             #print(decoded_data)
             """
