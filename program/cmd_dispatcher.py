@@ -17,28 +17,15 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
         is_move_resp = False
         while not is_move_resp:
             response = drone_instance.recv()
-            logging.info(f'### trying to get move cmd response: {response}')
+            logging.info(f'[cmd_dispatcher | exec_cmd] trying to get move cmd response: {response}')
             if response.startswith("ok"):
                 is_move_resp = True
 
             else:
-                logging.info(f"exec move cmd else !!! {response}")
+                logging.info(f"[cmd_dispatcher | exec_cmd] exec move cmd else !!! {response}")
                 is_move_resp = True
+        logging.info(f"[cmd_dispatcher | exec_cmd] cmd executed")
 
-                """
-        time.sleep(comm.get_exec_time())
-
-        logging.info(f'[cmd_dispatcher | exec_cmd] here is drone response: {drone_instance.exec_state}')
-        if drone_instance.exec_state == 'ok':
-            #state.update(comm)
-            logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} '
-                         f'\t Updated position: {state.pos}')
-        else:
-            # undo the update
-            state.undo()
-            logging.info(f'[cmd_dispatcher | exec_cmd] Command {comm.to_string()} have not been'
-                         f' executed. Current position: {state.pos}')
-"""
     except KeyboardInterrupt:
         drone_instance.terminate()
         receiving_thread.join()

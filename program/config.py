@@ -18,7 +18,7 @@ ROTATION_EXEC_TIME = 3
 # move length
 LEN_MIN = 0             # cm   TODO what if generated move length is smaller that this?
 LEN_MAX = 100           # cm
-MOVE = [20, 30, 40, 60, 80, 100]        # cm
+MOVE = [15, 20, 30, 40, 60, 80, 100]        # cm
 MOVE_UP_DOWN = [60, 80, 120]    # cm
 DEGREES = [90, 180]        # degrees  TODO extend with 270° but will position tracking still work?
 CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
@@ -35,6 +35,9 @@ CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
 
 # mission pad detected (not constant)
 PAD_DETECTED = False
+PAD = 0
+CURRENT_X = None    # position of the drone relative to the mission pad
+TOLERANCE = 4
 
 # TODO loe?
 MOVE_CMD_RESP = ""
