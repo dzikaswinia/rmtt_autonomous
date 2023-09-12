@@ -18,12 +18,12 @@ ROTATION_EXEC_TIME = 3
 # move length
 LEN_MIN = 0             # cm   TODO what if generated move length is smaller that this?
 LEN_MAX = 100           # cm
-MOVE = [40, 60, 80, 100]        # cm
+MOVE = [20, 30, 40, 60, 80, 100]        # cm
 MOVE_UP_DOWN = [60, 80, 120]    # cm
 DEGREES = [90, 180]        # degrees  TODO extend with 270° but will position tracking still work?
-CMDS = [#["takeoff", None],
-        #["land", None],
-       # ["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
+CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
+        ["land", None, 0],
+        #["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         #["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         ["forward", MOVE, MOVE_EXEC_TIME],
         #["back", MOVE, MOVE_EXEC_TIME],
@@ -35,3 +35,7 @@ CMDS = [#["takeoff", None],
 
 # mission pad detected (not constant)
 PAD_DETECTED = False
+
+# TODO loe?
+MOVE_CMD_RESP = ""
+GET_CMD_REPS = ""

@@ -3,7 +3,7 @@ import command
 import config
 
 root = logging.getLogger()
-root.setLevel(logging.DEBUG)
+root.setLevel(logging.INFO)
 
 # cmd name, coordinate index (x, y or z), factor (in- or decrease)
 
@@ -21,12 +21,13 @@ CMDS = [  # ["takeoff", None],
 
 
 
-class State:
+class Position: # TODO check while creating is starting position is conform with config values
     def __init__(self, start_position):
         self.start = start_position  # (x, y, z, degrees) starting height (z) would be after take off 80-100cm
         self.pos = self.start
         self.previous_pos = None
-        logging.info(f'[state | init] Initialized a state with starting position: {start_position}')
+        logging.info(f'[position | init] Initialized '
+                     f'a state with starting position: {start_position}')
 
     def update_coordinate(self, coord, val):
         if coord == 3:
@@ -46,7 +47,7 @@ class State:
     def update(self, cmd, *mode):
         self.previous_pos = self.pos.copy()
 
-        logging.info(f'[state | update] Updating the position {self.pos} '
+        logging.debug(f'[position | update] Updating the position {self.pos} '
                       f'with command \"{cmd.name}\" with param {cmd.get_param()}.')
         val = None
         if cmd.name == "up" or cmd.name == "down" or cmd.name == "cw" or cmd.name == "ccw":
@@ -84,19 +85,17 @@ class State:
                 factor *= -1
             self.update_coordinate(coordinate, factor * cmd.get_param())
 
-        logging.info(f'[state | update ({mode})] command: {cmd.to_string()} \t\tupdated position: {self.pos}')
+        logging.info(f'[position | update] command: {cmd.to_string()}, updated position: {self.pos}')
 
     def undo(self):
         self.pos = self.previous_pos
-        logging.info(f'[state | undo] position undo, current position: {self.pos}')
-
-
+        logging.info(f'[position | undo] position undo, current position: {self.pos}')
 
 
 # ------------------- TESTS ---------------------
 """
-state = State(start_position=[100, 100, 0, 0])
-cmd_b = command.Command("back", 40)
+state = Position(start_position=[100, 100, 0, 0])
+cmd_b = command.Command("forward", 40)
 state.update(cmd_b)
 state.undo()
 """

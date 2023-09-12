@@ -30,7 +30,7 @@ class TestUpdatingCoordinates(unittest.TestCase):
     def runTest(self):
         # setup
         pos = [100,100,0,270]
-        state = state_tracker.State(pos)
+        state = state_tracker.Position(pos)
         cmd = command.Command("cw", 180)
         state.update(cmd)
         updated_pos = [100, 100, 0, 90]
@@ -41,7 +41,7 @@ class TestUpdatingCoordinates(unittest.TestCase):
     def runTest2(self):
         # setup
         pos = [100,100,0,90]
-        state = state_tracker.State(pos)
+        state = state_tracker.Position(pos)
         cmd = command.Command("cw", 180)
         state.update(cmd)
         updated_pos = [100, 100, 0, 270]

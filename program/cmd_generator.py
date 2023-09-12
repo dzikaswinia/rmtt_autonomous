@@ -2,8 +2,8 @@ import random as rd
 import logging
 import command
 import config
-import state
-import state_tracker as st
+import position
+import position_tracker as st
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
@@ -31,6 +31,7 @@ def __generate_param(tof_value):
     param = rd.randint(config.LEN_MIN, max_move_len)
     logging.debug(f'[cmd_gen | __generate_param] param: {param}')
     return param
+
 
 def __generate_cmd(tof_value):
     cmd_index = rd.randint(0, len(config.CMDS) - 1)
@@ -69,14 +70,14 @@ def get_valid_forward_cmd(state, tof_value):
 
 
 # ------------------- TESTS ---------------------
-
-
 """
 tof = 80
-state1 = state.State(start_position=[0, 0, 20, 0])
-print(get_valid_cmd(state1, tof))
+pos = position.Position(start_position=[0, 0, 20, 0])
+print(get_valid_cmd(pos, tof).to_string())
 
 """
+
+
 
 
 

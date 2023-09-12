@@ -1,7 +1,7 @@
 import logging
 from copy import deepcopy
 import config
-import state
+import position
 import command
 
 
@@ -25,21 +25,15 @@ def is_valid_change(current_state, cmd):
 
 # ------------------- TESTS ---------------------
 """
-cmd_up = command.Command("up", 20)
 cmd_f = command.Command("forward", 20)
-cmd_right = command.Command("right", 40)
-cmd_left = command.Command("left", 40)
-state1 = state.State(start_position=[100, 100, 180, 0])
-print(f'state1: {state1.pos}')
-res = is_valid_change(state1, cmd_up)
+cmd_cw = command.Command("cw", 90)
+pos = position.Position(start_position=[40, 40, 180, 0])
+print(f'Position: {pos.pos}')
+res = is_valid_change(pos, cmd_f)
 print(f'The change is valid: {res}')
-print(f'state1: {state1.pos}')
-res = is_valid_change(state1, cmd_f)
+print(f'Position: {pos.pos}')
+res = is_valid_change(pos, cmd_cw)
 print(f'The change is valid: {res}')
-print(f'state1: {state1.pos}')
-res = is_valid_change(state1, cmd_right)
-print(f'The change is valid: {res}')
-print(f'state1: {state1.pos}')
-res = is_valid_change(state1, cmd_left)
-print(f'The change is valid: {res}')
+print(f'Position: {pos.pos}')
 """
+

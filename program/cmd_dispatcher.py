@@ -3,7 +3,7 @@ import time
 import threading
 import command
 import drone
-import state
+import position
 
 root = logging.getLogger()
 root.setLevel(logging.INFO)
@@ -11,12 +11,26 @@ root.setLevel(logging.INFO)
 
 def exec_cmd(drone_instance, comm, receiving_thread, state):
     try:
+        logging.info(f'[cmd_dispatcher | exec_cmd] trying execute cmd {comm.name}')
         state.update(comm)
-        response = drone_instance.send(comm.to_string())
+        drone_instance.send(comm.to_string())
+        is_move_resp = False
+        while not is_move_resp:
+            response = drone_instance.recv()
+            logging.info(f'### trying to get move cmd response: {response}')
+            if response.startswith("ok"):
+                is_move_resp = True
+
+            else:
+                logging.info(f"exec move cmd else !!! {response}")
+                is_move_resp = True
+
+                """
         time.sleep(comm.get_exec_time())
-        logging.info(f'here is drone response: {drone_instance.exec_state}')
+
+        logging.info(f'[cmd_dispatcher | exec_cmd] here is drone response: {drone_instance.exec_state}')
         if drone_instance.exec_state == 'ok':
-            state.update(comm)
+            #state.update(comm)
             logging.info(f'[cmd_dispatcher | exec_cmd] Executed command {comm.to_string()} '
                          f'\t Updated position: {state.pos}')
         else:
@@ -24,7 +38,7 @@ def exec_cmd(drone_instance, comm, receiving_thread, state):
             state.undo()
             logging.info(f'[cmd_dispatcher | exec_cmd] Command {comm.to_string()} have not been'
                          f' executed. Current position: {state.pos}')
-
+"""
     except KeyboardInterrupt:
         drone_instance.terminate()
         receiving_thread.join()
@@ -34,10 +48,9 @@ def exec_sensor_cmd(drone_instance, comm, receiving_thread):
     try:
         #state.update(comm)
         drone_instance.send(comm)
+        logging.info(f'[cmd_dispatcher | exec_sensor_cmd] drone exec state: {drone_instance.exec_state}')
         response = drone_instance.recv()
-        #time.sleep(comm.get_exec_time())
-
-        logging.info(f'sensor data: #{response}#')
+        logging.info(f'[cmd_dispatcher | exec_sensor_cmd] response: {response}')
         return response
     except KeyboardInterrupt:
         drone_instance.terminate()
@@ -49,7 +62,7 @@ def get_real_response(drone_instance):
     response = ""
     while not is_tof_resp:
         response = drone_instance.recv()
-        logging.debug(f'trying to get tof response: {response}')
+        logging.debug(f'### trying to get tof response: {response}')
         print()
         if response.startswith("tof"):
             is_tof_resp = True
@@ -72,7 +85,7 @@ def get_tof(drone_instance, receiving_thread):
     try:
         drone_instance.send("EXT tof?")
         response = get_real_response(drone_instance)
-        logging.info(f'sensor data: {response}')
+        logging.info(f'[command_dispatcher | get_tof] sensor data: {response}')
 
         # extracting value
         values = response.split(" ")
@@ -88,25 +101,32 @@ def get_tof(drone_instance, receiving_thread):
 # ------------------- TESTS ---------------------
 """
 rmtt = drone.Drone()
+
 recvThread = threading.Thread(target=rmtt.recv)
 recvThread.start()
 
-drone_state = state.State(start_position=[100, 100, 80, 0])
-cmd = command.Command("back", 60)
+drone_pos = position.Position(start_position=[40, 40, 80, 0])
+#cmd = command.Command("back", 60)
 cmd_f = command.Command("forward", 40)
-cmd_r = command.Command("right", 40)
+#cmd_r = command.Command("right", 40)
 cmd_cw = command.Command("cw", 90)
 
 rmtt.send("command")
 time.sleep(3)
-rmtt.send("takeoff")
+#rmtt.send("takeoff")
+cmd_takeoff = command.Command("takeoff", None)
+exec_cmd(rmtt, cmd_takeoff, recvThread, drone_pos)
 time.sleep(8)
 
-exec_cmd(rmtt, cmd_f, recvThread, drone_state)
-exec_cmd(rmtt, cmd_cw, recvThread, drone_state)
+exec_cmd(rmtt, cmd_f, recvThread, drone_pos)
+exec_cmd(rmtt, cmd_cw, recvThread, drone_pos)
 rmtt.send("land")
 
+
 """
+
+
+
 
 
 
