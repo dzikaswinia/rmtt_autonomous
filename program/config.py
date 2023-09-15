@@ -26,7 +26,7 @@ CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
         #["up", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         #["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         ["forward", MOVE, MOVE_EXEC_TIME],
-        #["back", MOVE, MOVE_EXEC_TIME],
+        ["back", MOVE, MOVE_EXEC_TIME],
         #["left", MOVE, MOVE_EXEC_TIME],
         #["right", MOVE, MOVE_EXEC_TIME],
         ["cw", DEGREES, ROTATION_EXEC_TIME]    # rotate clockwise

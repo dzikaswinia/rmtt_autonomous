@@ -46,7 +46,7 @@ def run_sensor_data_converter():
     # setup
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(('', 8890))
-
+    i = 0
     while True:
         try:
             # print('trying to get sensor state')
@@ -54,7 +54,9 @@ def run_sensor_data_converter():
             decoded_data = data.decode()
             #logging.info(f'[sensor data converter] sensor date: {decoded_data}')
             mid = get_sensor_value(decoded_data, "mid")
-            print(mid)
+            if str(i).endswith("0"):
+                print(f'Sensor: {mid}')
+            i += 1
             #x = get_sensor_value(decoded_data, "x")
             #print(f'x: {x}')
             #print(decoded_data)

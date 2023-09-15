@@ -7,7 +7,7 @@ class Command:
         self.name = name
         self.param = self.set_param(param, name)
         self.__exec_time = self.set_exec_time(name)
-        logging.debug(f"[command | init] param: {self.param}, name: {self.name}")
+        logging.info(f"[command | init] param: {self.param}, name: {self.name}")
 
     def set_param(self, param, name):
         if name == "cw" or name == "ccw":

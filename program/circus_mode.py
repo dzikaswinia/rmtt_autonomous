@@ -33,25 +33,30 @@ def find_circle_one_pad(drone_inst, thread, pos):
                 break
 
 
+forward_tolerance = [10, 15, 20]
+backward_tolerance = [0, 10, 15]
+distance = 30
 def find_circle_two_pads(drone_inst, thread, pos):
     pad = config.PAD
     print(f'pad: {pad}')
     # forward 10 cm
-    cmd_f_20 = command.Command("forward", 40)
-    cd.exec_cmd(drone_inst, cmd_f_20, recvThread, pos)
+    cmd_f_40 = command.Command("forward", distance)
+    cd.exec_cmd(drone_inst, cmd_f_40, recvThread, pos)
     time.sleep(1)
+    cmd_back = command.Command("back", distance)
+    cmd_cw_90 = command.Command("cw", 90)
     new_pad = config.PAD                        # string
-    print(f"New pad?: {new_pad}")
+    print(f"New pad?: {new_pad}, type: {type(new_pad)}")
     if new_pad == "2":
-        cmd_cw_180 = command.Command("cw", 180)
-        cmd_cw_90 = command.Command("cw", 90)
+        print("in if part")
         for i in range(3):
             print("for loop")
-            cd.exec_cmd(drone_inst, cmd_cw_180, thread, pos)
-            cd.exec_cmd(drone_inst, cmd_f_20, thread, pos)
+            cmd_f = command.Command("forward", distance + forward_tolerance[i])
+            cmd_b = command.Command("back", distance + backward_tolerance[i])
+            cd.exec_cmd(drone_inst, cmd_back, thread, pos)
             cd.exec_cmd(drone_inst, cmd_cw_90, thread, pos)
-            cd.exec_cmd(drone_inst, cmd_f_20, thread, pos)
-            time.sleep(1)
+            cd.exec_cmd(drone_inst, cmd_f, thread, pos)
+            time.sleep(3)
             new_pad = config.PAD  # string
             print(f"New pad?: {new_pad}")
             if new_pad == "1":
@@ -62,25 +67,6 @@ def find_circle_two_pads(drone_inst, thread, pos):
                 continue
     else:
         print("right direction")
-
-    """
-        if prev_x < current_x:
-        print("right direction")
-    else:
-        print("else")
-        cmd_cw_180 = command.Command("cw", 180)
-        cmd_cw_90 = command.Command("cw", 90)
-        for i in range(3):
-            print("for loop")
-            current_x = config.CURRENT_X - 4
-            cd.exec_cmd(drone_inst, cmd_cw_180, thread, pos)
-            cd.exec_cmd(drone_inst, cmd_f_20, thread, pos)
-            cd.exec_cmd(drone_inst, cmd_cw_90, thread, pos)
-            if prev_x < current_x:
-                print("right direction")
-                break
-    """
-
 
 
 drone_instance = drone.Drone()
