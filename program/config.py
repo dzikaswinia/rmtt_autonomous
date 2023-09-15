@@ -33,6 +33,11 @@ CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
         #["ccw", DEGREES, ROTATION_EXEC_TIME]   # rotate counter-clockwise
         ]
 
+CMDS_obstacles = [["forward", MOVE, MOVE_EXEC_TIME],
+        ["cw", DEGREES, ROTATION_EXEC_TIME],    # rotate clockwise
+        ["ccw", DEGREES, ROTATION_EXEC_TIME]   # rotate counter-clockwise
+        ]
+
 # mission pad detected (not constant)
 PAD_DETECTED = False
 PAD = 0

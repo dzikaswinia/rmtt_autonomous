@@ -6,6 +6,7 @@ import command
 import cmd_dispatcher as cd
 import drone
 import position
+import cmd_generator as cg
 
 
 def find_circle_one_pad(drone_inst, thread, pos):
@@ -76,7 +77,8 @@ recvThread.start()
 
 START = [40, 40, 80, 0]
 drone_position = position.Position(start_position=START)
-
+cmd_num = 10
+fixed_tof = 120
 
 def test():
     drone_instance.send("command")
@@ -88,8 +90,17 @@ def test():
     while not config.PAD_DETECTED:
         print("no pad detected yet")
         time.sleep(2)
+        if config.PAD_DETECTED:
+            continue
+        else:
+            for i in range(cmd_num):
+                #new_cmd = cg.get_valid_cmd(drone_position, fixed_tof)
+                new_cmd = cg.get_circus_cmd(drone_position)
+                print(f"cmd generated: {i}")
+                cd.exec_cmd(drone_instance, new_cmd, recvThread, drone_position)
 
-    find_circle_two_pads(drone_instance, recvThread, drone_position)
+    print(f'PAD #2 detected: {config.PAD_DETECTED}')
+    #find_circle_two_pads(drone_instance, recvThread, drone_position)
 
     drone_instance.send("land")
 
