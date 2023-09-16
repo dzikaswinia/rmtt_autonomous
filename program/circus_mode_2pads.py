@@ -91,7 +91,7 @@ def test():
     i = 0
     while not config.PAD_DETECTED:
         print("no pad detected yet")
-        #time.sleep(2) # TODO do we need this?
+        time.sleep(2) # TODO do we need this?
 
         tof = cd.get_tof(drone_instance, recvThread)
         print(f'{i}\ttof: {tof} cm')
