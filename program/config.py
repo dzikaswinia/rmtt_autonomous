@@ -27,8 +27,8 @@ CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
         #["down", MOVE_UP_DOWN, MOVE_EXEC_TIME],
         ["forward", MOVE, MOVE_EXEC_TIME],
         ["back", MOVE, MOVE_EXEC_TIME],
-        #["left", MOVE, MOVE_EXEC_TIME],
-        #["right", MOVE, MOVE_EXEC_TIME],
+        ["left", MOVE, MOVE_EXEC_TIME],
+        ["right", MOVE, MOVE_EXEC_TIME],
         ["cw", DEGREES, ROTATION_EXEC_TIME]    # rotate clockwise
         #["ccw", DEGREES, ROTATION_EXEC_TIME]   # rotate counter-clockwise
         ]
@@ -42,8 +42,12 @@ CMDS_obstacles = [["forward", MOVE, MOVE_EXEC_TIME],
 PAD_DETECTED = False
 PAD = 0
 CURRENT_X = None    # position of the drone relative to the mission pad
-TOLERANCE = 4
+CURRENT_Y = None
+TOLERANCE = 5
 
 # TODO loe?
 MOVE_CMD_RESP = ""
 GET_CMD_REPS = ""
+
+# ---- circus mode ----------
+THRESHOLD = 10   # for x and y coordinate of the mission pads

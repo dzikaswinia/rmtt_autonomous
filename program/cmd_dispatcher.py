@@ -10,7 +10,6 @@ root.setLevel(logging.INFO)
 
 
 def exec_cmd(drone_instance, comm, receiving_thread, pos):
-    print("exec cmd")
     try:
         logging.info(f'[cmd_dispatcher | exec_cmd] trying execute cmd {comm.name}')
         pos.update(comm)

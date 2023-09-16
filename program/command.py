@@ -3,9 +3,12 @@ import config
 
 
 class Command:
-    def __init__(self, name, param):
+    def __init__(self, name, param, mode=None):
         self.name = name
-        self.param = self.set_param(param, name)
+        if mode:
+            self.param = self.set_param_free(param)
+        else:
+            self.param = self.set_param(param, name)
         self.__exec_time = self.set_exec_time(name)
         logging.info(f"[command | init] param: {self.param}, name: {self.name}")
 
@@ -26,6 +29,15 @@ class Command:
             logging.debug(f"[command | set_param] param: {param}, name: {name}, "
                           f" get_param: {self.get_param()}")
             return param
+
+    # Using it for command where I want to have any possible movement length
+    # not only the ones defined in config.
+    # I use it for circus modus to center the drone above a mission pad.
+    def set_param_free(self, param):
+        logging.info(f"[command | set_param_free] param: {param}, name: {self.name}")
+        self.param = param
+        return param
+
 
     def get_param(self):
         return self.param

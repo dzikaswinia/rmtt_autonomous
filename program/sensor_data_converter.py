@@ -52,13 +52,16 @@ def run_sensor_data_converter():
             # print('trying to get sensor state')
             data, server = sock.recvfrom(1024)
             decoded_data = data.decode()
-            #logging.info(f'[sensor data converter] sensor date: {decoded_data}')
+            # logging.info(f'[sensor data converter] sensor date: {decoded_data}')
             mid = get_sensor_value(decoded_data, "mid")
+            x = get_sensor_value(decoded_data, "x")
+            y = get_sensor_value(decoded_data, "y")
+            config.CURRENT_X = int(x)
+            config.CURRENT_Y = int(y)
             if str(i).endswith("0"):
-                print(f'Sensor: {mid}')
+                print(f'Sensor: {mid}, x:{x}, y {y}')
             i += 1
-            #x = get_sensor_value(decoded_data, "x")
-            #print(f'x: {x}')
+
             #print(decoded_data)
             """
             logging.info(f'[sensor data converter] mission pad id: {mid},  '
@@ -68,15 +71,17 @@ def run_sensor_data_converter():
             if mid != str(-1):
                 config.PAD_DETECTED = True
                 config.PAD = mid
-            #config.CURRENT_X = x
+
 
         except Exception as err:
             print(err)
             sock.close()
             break
 
-
+"""
 if __name__ == "__main__":
     run_sensor_data_converter()
     #str = "mid:20;x:-13;y:-100;z:-100;mpry:0,0,0;"
     #print(get_sensor_value(str, "x"))
+"""
+
