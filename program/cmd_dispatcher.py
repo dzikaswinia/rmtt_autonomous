@@ -9,10 +9,11 @@ root = logging.getLogger()
 root.setLevel(logging.INFO)
 
 
-def exec_cmd(drone_instance, comm, receiving_thread, state):
+def exec_cmd(drone_instance, comm, receiving_thread, pos):
+    print("exec cmd")
     try:
         logging.info(f'[cmd_dispatcher | exec_cmd] trying execute cmd {comm.name}')
-        state.update(comm)
+        pos.update(comm)
         drone_instance.send(comm.to_string())
         is_move_resp = False
         while not is_move_resp:
@@ -70,6 +71,7 @@ def get_tof(drone_instance, receiving_thread):
     :return: distance in cm as integer
     """
     try:
+        print("get tof")
         drone_instance.send("EXT tof?")
         response = get_real_response(drone_instance)
         logging.info(f'[command_dispatcher | get_tof] sensor data: {response}')
