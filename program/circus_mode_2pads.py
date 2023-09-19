@@ -98,7 +98,7 @@ def get_correction_x_axis(x, drone_position):
     if abs(x) < 21:
         parameter = 20
 
-    return command.Command(cmd_name, parameter, "free_mode")
+    return command.Command(cmd_name, parameter + config.CEN_COR_VAL, "free_mode")
 
 
 def get_correction_y_axis(y, drone_position):
@@ -132,7 +132,7 @@ def get_correction_y_axis(y, drone_position):
     parameter = abs(y)
     if abs(y) < 21:
         parameter = 20
-    return command.Command(cmd_name, parameter, "free_mode")
+    return command.Command(cmd_name, parameter + config.CEN_COR_VAL, "free_mode")
 
 
 def center(pos):
@@ -163,7 +163,7 @@ def test():
     cmd_cw = command.Command("cw", 90)
     cmd_f = command.Command("forward", 30)
 
-    START = [40, 40, 80, 0]
+    START = [40, 20, 80, 0]
     drone_position = position.Position(start_position=START)
     cmd_num = 10
     drone_instance.send("command")
@@ -193,11 +193,16 @@ def test():
           f'x: {config.CURRENT_X}, y: {config.CURRENT_Y}')
     time.sleep(4) # pause to let sensor send right data
     print(f'x: {config.CURRENT_X}, y: {config.CURRENT_Y}')
-    cmds = center(drone_position)
-    print(f"we have {len(cmds)} correcting commands")
-    for cmd in cmds:
-        cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
-    #find_circle_two_pads(drone_instance, recvThread, drone_position)
+    print(f'Is the pad still detected?: {config.PAD_DETECTED}')
+    if config.PAD_DETECTED:
+        cmds = center(drone_position)
+        print(f"we have {len(cmds)} correcting commands")
+        for cmd in cmds:
+            cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
+        #find_circle_two_pads(drone_instance, recvThread, drone_position)
+    else:
+        print("pad not detected, continue flying")
+
 
     drone_instance.send("land")
 

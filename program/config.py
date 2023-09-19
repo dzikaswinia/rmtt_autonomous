@@ -51,3 +51,4 @@ GET_CMD_REPS = ""
 
 # ---- circus mode ----------
 THRESHOLD = 10   # for x and y coordinate of the mission pads
+CEN_COR_VAL = -1         # correction value for centering function (drone tends to fly further than it is ask to)

@@ -60,9 +60,9 @@ def run_sensor_data_converter():
             config.CURRENT_Y = int(y)
             if str(i).endswith("0"):
                 print(f'Sensor: {mid}, x:{x}, y {y}')
+                print(f'config: pad {config.PAD}, deteced:{config.PAD_DETECTED}')
             i += 1
 
-            #print(decoded_data)
             """
             logging.info(f'[sensor data converter] mission pad id: {mid},  '
                          f'config.PAD_DETECTED {config.PAD_DETECTED}')
@@ -71,17 +71,22 @@ def run_sensor_data_converter():
             if mid != str(-1):
                 config.PAD_DETECTED = True
                 config.PAD = mid
-
+            else:
+                config.PAD_DETECTED = False
+                config.PAD = None
 
         except Exception as err:
             print(err)
             sock.close()
             break
 
+
 """
 if __name__ == "__main__":
     run_sensor_data_converter()
     #str = "mid:20;x:-13;y:-100;z:-100;mpry:0,0,0;"
     #print(get_sensor_value(str, "x"))
+
 """
+
 
