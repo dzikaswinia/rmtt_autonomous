@@ -15,7 +15,6 @@ root.setLevel(logging.INFO)
 CMD_LIMIT = 4
 START = [40, 40, 80, 0]
 cmd_num = 20
-BREAK_BETWEEN_CMD = 3 # only debugging  # TODO loe
 
 
 # setup

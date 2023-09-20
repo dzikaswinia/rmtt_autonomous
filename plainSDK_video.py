@@ -18,6 +18,8 @@ class Tello:
         while self._running:
             try:
                 ret, frame = self.video.read()
+                print(f"ret: {ret}, {type(ret)}")
+                print(f"frame: {frame}, {type(frame)}")
                 if ret:
                     # Resize frame
                     height, width, _ = frame.shape
@@ -26,6 +28,7 @@ class Tello:
 
                     # Resize for improved performance
                     new_frame = cv2.resize(frame, (new_w, new_h))
+
 
                     # Display the resulting frame
                     cv2.imshow('Tello', new_frame)

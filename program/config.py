@@ -51,3 +51,14 @@ GET_CMD_REPS = ""
 
 # ---- circus mode ----------
 THRESHOLD = 10   # for x and y coordinate of the mission pads
+
+# 2pads approach
+DIST_BETWEEN_PADS = 35          # distance between pad #1 and #2
+TOLERANCE_FORWARD = [0, 0, 0]        # added to the distance when searching for the pad #1
+TOLERANCE_BACKWARD = [0, 0, 0]
+#TOLERANCE_FORWARD = [10, 15, 20]        # added to the distance when searching for the pad #1
+#TOLERANCE_BACKWARD = [0, 10, 15]
+
+# CV approach
+CURRENT_IMG = None
+CURRENT_IMG_SET = False

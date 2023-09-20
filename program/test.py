@@ -18,7 +18,7 @@ def getField(img_shape):
              [center + (height/2), height]]
     return field
 
-
+# TODO loe
 def isInField(points, field):
     for p in points:
         print(p)
@@ -34,8 +34,6 @@ def euclidean(a, b):
 
 def score(points, center):
     result = 0
-    if len(points) == 0:
-        return -1
     for p in points:
         result += euclidean(p, center)
         print(f'SCORE: p: {p}, center: {center}')
@@ -67,7 +65,7 @@ def getPoints(img):
 
     # Find contours of the detected red objects
     contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    print(f'Contours: {contours }')
+
     # Initialize a list to store the positions of red objects
     red_object_positions = []
     # Iterate through the contours and store the positions
@@ -79,39 +77,6 @@ def getPoints(img):
 
     return red_object_positions
 
-
-import glob
-
-def auswertung():
-    positions =[]
-    scores = []
-    fig = plt.figure(figsize=(15, 10))
-    i = 0
-    for file in glob.glob("/home/monika/a/3/*.jpg"):
-        fig.add_subplot(3, 4, i + 1)
-        print(file)
-        img = cv2.imread(file)
-        img_hvs = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        #cv2.imshow(img_hvs)
-        pos = getPoints(img_hvs)
-        print(f'Pos: {pos}')
-        positions.append(pos)
-        center = [img.shape[1] / 2, img.shape[0] * 0.2]
-        score_value = score(pos, center)
-        scores.append(score_value)
-        x, y = convertToXY(pos)
-        plt.imshow(img)
-        plt.scatter(x, y, color='red')
-        plt.scatter([center[0]], [center[1]], color='yellow')
-        plt.title(f"score: {score_value}")
-        fig.tight_layout()
-        i += 1
-    plt.show()
-
-
-auswertung()
-
-"""
 data = []
 for i in range(11):
     data.append("imgs/" + str(i) + ".png")
@@ -144,10 +109,68 @@ print(f'scores:\n')
 for score in scores:
     print(score)
 
+
 plt.show()
+
+
+
+# setup
+"""
+image = cv2.imread("img1.jpg")
+image2 = cv2.imread("img2.jpg")
+image3 = cv2.imread("img3.jpg")
+"""
+#img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+#img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+"""
+# Convert the image to the HSV color space
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+hsv_image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2HSV)
+hsv_image3 = cv2.cvtColor(image3, cv2.COLOR_BGR2HSV)
+
+pos = getPoints(hsv_image)
+pos2 = getPoints(hsv_image2)
+pos3 = getPoints(hsv_image3)
 """
 
+"""
+x = []
+y = []
+# Display the result
+for position in red_object_positions:
+    print(f"Red object position: {position}")
+    x.append(position[0])
+    y.append(position[1])
+
+"""
+
+""" 
+# distance from center (score)
+center = [551/2, 979/2]
+print(f'stop img #1 {score(pos, center)}\n'
+      f'stop img #2 {score(pos2, center)}\n'
+      f'stop img #3 {score(pos3, center)}')
 
 
+# centering of circle
+img_size = image.shape
+print(f'img size: {img_size}')
 
+target_field = getField(img_size)
+x_field, y_field = convertToXY(target_field)
+print(f'target field: {target_field}')
 
+x1, y1 = convertToXY(pos)
+x2, y2 = convertToXY(pos2)
+x3, y3 = convertToXY(pos3)
+
+plt.subplot(1, 1, 1)
+plt.imshow(hsv_image)
+plt.scatter(x1, y1, color='red')
+plt.scatter(x2, y2, color='green')
+plt.scatter(x3, y3, color='yellow')
+plt.scatter(x_field, y_field, color='blue')
+plt.imshow(image)
+#plt.show()
+
+"""

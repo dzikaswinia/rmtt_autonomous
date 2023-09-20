@@ -38,10 +38,10 @@ def find_circle_two_pads(drone_inst, thread, pos):
     pad = config.PAD
     print(f'pad: {pad}')
     # forward 10 cm
-    cmd_f_40 = command.Command("forward", distance)
+    cmd_f_40 = command.Command("forward", config.DIST_BETWEEN_PADS)
     cd.exec_cmd(drone_inst, cmd_f_40, recvThread, pos)
     time.sleep(1)
-    cmd_back = command.Command("back", distance)
+    cmd_back = command.Command("back", config.DIST_BETWEEN_PADS)
     cmd_cw_90 = command.Command("cw", 90)
     new_pad = config.PAD                        # string
     print(f"New pad?: {new_pad}, type: {type(new_pad)}")
@@ -49,8 +49,8 @@ def find_circle_two_pads(drone_inst, thread, pos):
         print("in if part")
         for i in range(3):
             print("for loop")
-            cmd_f = command.Command("forward", distance + forward_tolerance[i])
-            cmd_b = command.Command("back", distance + backward_tolerance[i])
+            cmd_f = command.Command("forward", config.DIST_BETWEEN_PADS + config.TOLERANCE_FORWARD[i])
+            cmd_b = command.Command("back", config.DIST_BETWEEN_PADS + config.TOLERANCE_BACKWARD[i])
             cd.exec_cmd(drone_inst, cmd_back, thread, pos)
             cd.exec_cmd(drone_inst, cmd_cw_90, thread, pos)
             cd.exec_cmd(drone_inst, cmd_f, thread, pos)
@@ -156,9 +156,9 @@ def center(pos):
 
     return result
 
+
 # ----------- main method -----------------------------------------------
 def test():
-
     cmd_takeoff = command.Command("takeoff", None)
     cmd_cw = command.Command("cw", 90)
     cmd_f = command.Command("forward", 30)
@@ -197,15 +197,14 @@ def test():
     print(f"we have {len(cmds)} correcting commands")
     for cmd in cmds:
         cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
-    #find_circle_two_pads(drone_instance, recvThread, drone_position)
-
+    find_circle_two_pads(drone_instance, recvThread, drone_position)
+    drone_instance.send("forward 50")
     drone_instance.send("land")
 
 
 # --------- setup ----------------------------------------------------
-forward_tolerance = [10, 15, 20]
-backward_tolerance = [0, 10, 15]
-distance = 30
+
+
 
 drone_instance = drone.Drone()
 recvThread = threading.Thread(target=drone_instance.recv)
