@@ -209,7 +209,7 @@ def test():
     cmd_cw = command.Command("cw", 90)
     cmd_f = command.Command("forward", 30)
 
-    START = [40, 20, 80, 270]  # TODO set degree
+    START = [40, 20, 80, 0]  # TODO set degree
     drone_position = position.Position(start_position=START)
     cmd_num = 10
     drone_instance.send("command")
@@ -276,13 +276,13 @@ def test():
 
     # adjusting height
     drone_instance.send("up 20")
-    time.sleep(1)
+    time.sleep(3)
     drone_instance.send("down 25")
-    time.sleep(1)
+    time.sleep(3)
 
     # fly through
-    drone_instance.send("forward 60")
-
+    drone_instance.send("forward 70")
+    time.sleep(4)
     drone_instance.send("land")
 
 
