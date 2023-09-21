@@ -121,7 +121,6 @@ def get_correction_y_axis(y, drone_position):
     factor = 1
     if y > 0:
         # positive - move down
-        factor = -1
         if drone_orientation == 90 or drone_orientation == 270:
             cmd_name = "right"
             if drone_orientation == 270:
@@ -131,7 +130,6 @@ def get_correction_y_axis(y, drone_position):
             if drone_orientation == 180:
                 cmd_name = "forward"
     else:
-
         # negative . move up
         if drone_orientation == 90 or drone_orientation == 270:
             cmd_name = "left"
@@ -165,6 +163,7 @@ def get_correction_y_axis(y, drone_position):
 
 
 def center(pos):
+    print("--- center ----")
     x = config.CURRENT_X
     y = config.CURRENT_Y
 
@@ -190,13 +189,27 @@ def center(pos):
     return result
 
 
+def get_direction(position):
+    pos = position.pos
+    drone_orient = pos[3]
+    print(f'drone orientation {drone_orient}')
+    direction = "n"
+    if drone_orient == 270:
+        direction = "w"
+    if drone_orient == 90:
+        direction = "e"
+    print(f'### DIREXCTION:direction is {direction}')
+    return direction
+
+
+
 # ----------- main method -----------------------------------------------
 def test():
     cmd_takeoff = command.Command("takeoff", None)
     cmd_cw = command.Command("cw", 90)
     cmd_f = command.Command("forward", 30)
 
-    START = [40, 20, 80, 0]
+    START = [40, 20, 80, 270]  # TODO set degree
     drone_position = position.Position(start_position=START)
     cmd_num = 10
     drone_instance.send("command")
@@ -226,16 +239,6 @@ def test():
           f'x: {config.CURRENT_X}, y: {config.CURRENT_Y}')
     time.sleep(4) # pause to let sensor send right data
     print(f'x: {config.CURRENT_X}, y: {config.CURRENT_Y}')
-    """
-    cmds = center(drone_position)
-    print(f"we have {len(cmds)} correcting commands")
-    for cmd in cmds:
-        cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
-    find_circle_two_pads(drone_instance, recvThread, drone_position)
-    drone_instance.send("forward 50")
-
-    
-    """
 
     print(f'Is the pad still detected?: {config.PAD_DETECTED}')
     if config.PAD_DETECTED:
@@ -247,6 +250,38 @@ def test():
         #find_circle_two_pads(drone_instance, recvThread, drone_position)
     else:
         print("pad not detected, continue flying")
+    
+
+
+    #cmd_f20 = command.Command("forward", 20)
+    #cd.exec_cmd(drone_instance, cmd_f20, recvThread, drone_position)
+    #time.sleep(2)
+    direction = get_direction(drone_position)
+    #cmd_b20 = command.Command("back", 20)
+    #cd.exec_cmd(drone_instance, cmd_b20, recvThread, drone_position)
+    if direction != "n":
+        rota_cmd_name = "ccw"
+        if direction == "w":
+            rota_cmd_name = "cw"
+
+        rotation_cmd = command.Command(rota_cmd_name, 90)
+        cd.exec_cmd(drone_instance, rotation_cmd, recvThread, drone_position)
+
+    # center again
+    cmds = center(drone_position)
+    print(f"we have {len(cmds)} correcting commands")
+    for cmd in cmds:
+        print(f'CMD: {cmd.to_string()}')
+        cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
+
+    # adjusting height
+    drone_instance.send("up 20")
+    time.sleep(1)
+    drone_instance.send("down 25")
+    time.sleep(1)
+
+    # fly through
+    drone_instance.send("forward 60")
 
     drone_instance.send("land")
 

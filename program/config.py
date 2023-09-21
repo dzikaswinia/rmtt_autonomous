@@ -70,4 +70,9 @@ REVERSE_CMD_NAMES = {
         'forward': 'back',
         'back': 'forward',
         'right': 'left',
-        'left': 'right' }
+        'left': 'right'}
+
+# ---- direction of the circle ------------
+IN_AXIS_THRESHOLD = 7
+OUT_AXIS_THRESHOLD = 10
+
