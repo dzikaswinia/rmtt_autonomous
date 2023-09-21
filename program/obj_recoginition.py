@@ -109,7 +109,7 @@ def auswertung():
     plt.show()
 
 
-auswertung()
+#auswertung()
 
 """
 data = []

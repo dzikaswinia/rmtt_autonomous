@@ -50,7 +50,8 @@ MOVE_CMD_RESP = ""
 GET_CMD_REPS = ""
 
 # ---- circus mode ----------
-THRESHOLD = 10   # for x and y coordinate of the mission pads
+THRESHOLD = 5   # for x and y coordinate of the mission pads
+
 
 # 2pads approach
 DIST_BETWEEN_PADS = 35          # distance between pad #1 and #2
@@ -62,3 +63,11 @@ TOLERANCE_BACKWARD = [0, 0, 0]
 # CV approach
 CURRENT_IMG = None
 CURRENT_IMG_SET = False
+
+CEN_COR_VAL = 0         # correction value for centering function (drone tends to fly further than it is ask to)
+
+REVERSE_CMD_NAMES = {
+        'forward': 'back',
+        'back': 'forward',
+        'right': 'left',
+        'left': 'right' }
