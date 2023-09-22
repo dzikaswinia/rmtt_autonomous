@@ -205,11 +205,12 @@ def get_direction(position):
 
 # ----------- main method -----------------------------------------------
 def test():
+    time.sleep(2)
     cmd_takeoff = command.Command("takeoff", None)
     cmd_cw = command.Command("cw", 90)
     cmd_f = command.Command("forward", 30)
 
-    START = [40, 20, 80, 0]  # TODO set degree
+    START = [40, 20, 80, 270]  # TODO set degree
     drone_position = position.Position(start_position=START)
     cmd_num = 10
     drone_instance.send("command")
@@ -268,11 +269,14 @@ def test():
         cd.exec_cmd(drone_instance, rotation_cmd, recvThread, drone_position)
 
     # center again
+    """
     cmds = center(drone_position)
     print(f"we have {len(cmds)} correcting commands")
     for cmd in cmds:
         print(f'CMD: {cmd.to_string()}')
         cd.exec_cmd(drone_instance, cmd, recvThread, drone_position)
+
+    """
 
     # adjusting height
     drone_instance.send("up 20")

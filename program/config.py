@@ -29,8 +29,8 @@ CMDS = [["takeoff", None, TAKEOFF_EXEC_TIME],
         ["back", MOVE, MOVE_EXEC_TIME],
         ["left", MOVE, MOVE_EXEC_TIME],
         ["right", MOVE, MOVE_EXEC_TIME],
-        ["cw", DEGREES, ROTATION_EXEC_TIME]    # rotate clockwise
-        #["ccw", DEGREES, ROTATION_EXEC_TIME]   # rotate counter-clockwise
+        ["cw", DEGREES, ROTATION_EXEC_TIME],    # rotate clockwise
+        ["ccw", DEGREES, ROTATION_EXEC_TIME]   # rotate counter-clockwise
         ]
 
 CMDS_obstacles = [["forward", MOVE, MOVE_EXEC_TIME],

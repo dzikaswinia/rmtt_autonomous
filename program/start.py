@@ -20,7 +20,7 @@ cmd_num = 20
 # setup
 drone = drone.Drone()
 cmd_takeoff = command.Command("takeoff", None)
-cmd_cw = command.Command("cw", 90)
+cmd_cw = command.Command("ccw", 90)
 cmd_f = command.Command("forward", 30)
 
 
